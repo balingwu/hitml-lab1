@@ -110,5 +110,8 @@ venv.bak/
 .dmypy.json
 dmypy.json
 
-#csv data
+# csv data
 *.csv
+
+# project files
+.idea/

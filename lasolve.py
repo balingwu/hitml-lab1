@@ -2,6 +2,8 @@ import argparse
 import csv
 import numpy as np
 import numpy.linalg as la
+import matplotlib.pyplot as plt
+from numpy.polynomial.polynomial import polyval
 
 # data fields
 x = []
@@ -56,6 +58,19 @@ def main():
     w2, e2 = analsol_re(args.level, args.factor)
     print('Fitting result: ' + str(w2))
     print('Error: ' + str(e2))
+    # Draw it
+    px=np.linspace(min(x), max(x), num=100)
+    py1=polyval(px, w1)
+    py2=polyval(px, w2)
+    plt.scatter(x, y, label='Original Data', color='k')
+    plt.plot(px, py1, label='No reg. item', color='r')
+    plt.plot(px, py2, label='With reg. item', color='b')
+    # Set the appearance of the figure and show it
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title('Fitting results')
+    plt.legend()
+    plt.show()
 
 
 if __name__ == '__main__':

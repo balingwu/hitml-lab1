@@ -1,6 +1,8 @@
 import csv
 import argparse
 import numpy as np
+import matplotlib.pyplot as plt
+from numpy.polynomial.polynomial import polyval
 
 # data fields
 x = []
@@ -29,6 +31,17 @@ def main():
     print('Optimized result: ' + str(w))
     print('Error rate: ' + str(e))
     print('Steps: ' + str(k))
+    # Draw it
+    px=np.linspace(min(x), max(x), num=100)
+    py=polyval(px, w)
+    plt.scatter(x, y, label='Original Data', color='k')
+    plt.plot(px, py, label='Fitting result', color='r')
+    # Set the appearance of the figure and show it
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title('Fitting results')
+    plt.legend()
+    plt.show()
 
 
 def err_rate(w, fac):
