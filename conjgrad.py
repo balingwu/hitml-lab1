@@ -15,6 +15,7 @@ def main():
     parser = argparse.ArgumentParser(description='Using gradient descending method to solve the curve fitting problem.')
     parser.add_argument('--level', '-l', type=int, help='The level of the polynomial(required). Must be a positive integer.')
     parser.add_argument('--factor', '-f', type=float, default=0, help='The factor of the regular item. Default is 0.')
+    parser.add_argument('--show-sine', action='store_true', help='Show the real sine curve on the figure.')
     args = parser.parse_args()
     if not args.level or args.level < 0:
         parser.error('Expect level to be a positive integer')
@@ -36,6 +37,9 @@ def main():
     py=polyval(px, w)
     plt.scatter(x, y, label='Original Data', color='k')
     plt.plot(px, py, label='Fitting result', color='r')
+    if args.show_sine:
+        sy=np.sin(px)
+        plt.plot(px, sy, label='Real sine', color='g')
     # Set the appearance of the figure and show it
     plt.xlabel('x')
     plt.ylabel('y')
@@ -61,7 +65,7 @@ def conjugate_gradient(level, fac):
     ri = np.dot(np.transpose(xm), y) - np.dot(a, w)  # ri stands for (negative) gradient
     di = ri  # di stands for conjugate bases
     n = 0
-    while np.linalg.norm(ri) > 1e-7:
+    while np.linalg.norm(ri) > 1e-6:
         alpha = np.dot(ri, ri)/np.dot(np.dot(di, a), di)
         rj = ri  # rj is the previous gradient(ri)
         w += alpha * di  # calculate w(i+1)

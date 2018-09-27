@@ -16,6 +16,7 @@ def main():
     parser.add_argument('--level', '-l', type=int, help='The level of the polynomial(required). Must be a positive integer.')
     parser.add_argument('--factor', '-f', type=float, default=0, help='The factor of the regular item. Default is 0.')
     parser.add_argument('--alpha', '-a', type=float, default=0.1, help='Learning rate(the step length). Default is 0.1')
+    parser.add_argument('--show-sine', action='store_true', help='Show the real sine curve on the figure.')
     args = parser.parse_args()
     if not args.level or args.level < 0:
         parser.error('Expect level to be a positive integer')
@@ -39,6 +40,9 @@ def main():
     py=polyval(px, w)
     plt.scatter(x, y, label='Original Data', color='k')
     plt.plot(px, py, label='Fitting result', color='r')
+    if args.show_sine:
+        sy=np.sin(px)
+        plt.plot(px, sy, label='Real sine', color='g')
     # Set the appearance of the figure and show it
     plt.xlabel('x')
     plt.ylabel('y')
@@ -62,7 +66,7 @@ def grad_desc(level, fac, alpha):
     grad = grad_func(w, fac)
     val = err_rate(w, fac)
     k = 0
-    while not np.all(np.absolute(grad) <= 1e-6):
+    while np.linalg.norm(grad) > 1e-6:
         w -= alpha * grad
         # Make alpha smaller if the error rate goes up
         if err_rate(w, fac) > val:

@@ -35,6 +35,7 @@ def main():
     parser = argparse.ArgumentParser(description='Using analytical method to solve the curve fitting problem.')
     parser.add_argument('--level', '-l', type=int, help='The level of the polynominal.')
     parser.add_argument('--factor', '-f', type=float, default=0, help='The factor of the regular item. Default is 0.')
+    parser.add_argument('--show-sine', action='store_true', help='Show the real sine curve on the figure.')
     args = parser.parse_args()
     if args.level is None:
         parser.error('Level not specified')
@@ -65,6 +66,9 @@ def main():
     plt.scatter(x, y, label='Original Data', color='k')
     plt.plot(px, py1, label='No reg. item', color='r')
     plt.plot(px, py2, label='With reg. item', color='b')
+    if args.show_sine:
+        sy=np.sin(px)
+        plt.plot(px, sy, label='Real sine', color='g')
     # Set the appearance of the figure and show it
     plt.xlabel('x')
     plt.ylabel('y')
